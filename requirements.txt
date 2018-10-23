@@ -1,0 +1,7 @@
+Flask
+connexion
+nameko
+sqlalchemy
+fastavro
+flask_nameko
+flask-jwt-extended
