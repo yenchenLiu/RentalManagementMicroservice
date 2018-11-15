@@ -1,0 +1,1 @@
+AMQP_URI: 'pyamqp://guest:guest@localhost:5673/;pyamqp://guest:guest@localhost:5672/;pyamqp://guest:guest@localhost:5674/'
