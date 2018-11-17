@@ -7,8 +7,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
-book_schema = parse_schema(json.loads(open("../avro/Book.avsc", "r").read()))
-category_schema = parse_schema(json.loads(open("../avro/BookCategory.avsc", "r").read()))
+book_schema = parse_schema(json.loads(open("./avro/Book.avsc", "r").read()))
+category_schema = parse_schema(json.loads(open("./avro/BookCategory.avsc", "r").read()))
 
 Base = declarative_base()
 

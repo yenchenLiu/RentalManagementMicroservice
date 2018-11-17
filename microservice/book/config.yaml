@@ -1,0 +1,2 @@
+AMQP_URI: 'pyamqp://guest:guest@172.21.0.1:5673/;pyamqp://guest:guest@172.21.0.1:5672/;pyamqp://guest:guest@172.21.0.1:5674/'
+# 172.21.0.1 為docker 連進本機的ip

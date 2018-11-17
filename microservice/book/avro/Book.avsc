@@ -1,0 +1,10 @@
+{
+ "type": "record",
+ "name": "Book",
+ "fields": [
+     {"name": "id", "type": ["null", "int"]},
+     {"name": "name", "type": "string"},
+     {"name": "amount", "type": "int"},
+     {"name": "category", "type": ["null", "int"]}
+]
+}
