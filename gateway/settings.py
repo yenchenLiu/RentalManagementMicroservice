@@ -1,3 +1,4 @@
+import os
 from lib.tracing import FlaskTracer, init_tracer
 from flask import Flask
 from flask_nameko import FlaskPooledClusterRpcProxy
@@ -12,7 +13,8 @@ def init(application):
     def create_app():
         rpc_app = Flask(__name__)
         rpc_app.config.update(dict(
-            NAMEKO_AMQP_URI='pyamqp://guest:guest@localhost:5674/;pyamqp://guest:guest@localhost:5673/;pyamqp://guest:guest@localhost:5672/'
+            NAMEKO_AMQP_URI='pyamqp://{}:{}@{}'.format(os.getenv('RABBITMQ_USER', "guest"), os.getenv('RABBITMQ_PASSWORD', "guest"), 
+                                                       os.getenv('RABBITMQ_HOST', "localhost"))
         ))
 
         rpc.init_app(rpc_app)

@@ -1,9 +1,9 @@
 Flask
 connexion
+connexion[swagger-ui]
 nameko
 sqlalchemy
 fastavro
 flask_nameko
 flask-jwt-extended
-opentracing<2.0.0
 jaeger-client

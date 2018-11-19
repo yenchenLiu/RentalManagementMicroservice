@@ -1,3 +1,4 @@
+import os
 import logging
 
 import opentracing
@@ -15,6 +16,9 @@ def init_tracer(service):
             'sampler': {
                 'type': 'const',
                 'param': 1,
+            },
+             'local_agent': {
+                'reporting_host': "{}".format(os.getenv("REPORTING_HOST", "localhost")),
             },
             'logging': True,
             'reporter_batch_size': 1,

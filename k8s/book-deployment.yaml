@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-service
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: book-service
+  template:
+    metadata:
+      labels:
+        app: book-service
+    spec:
+      containers:
+      - name: pod-book-service
+        image: daychen/books-service:v1.4.0
+        env:
+        - name: RABBITMQ_HOST
+          value: rabbitmq

@@ -12,8 +12,7 @@ import settings
 
 if __name__ == "__main__":
     app = connexion.App(__name__, port=9090, specification_dir='swagger/')
-    app.add_api('shopping.yaml', resolver=RestyResolver('api'),
-                swagger_ui=True, validate_responses=True)
+    app.add_api('shopping.yaml', resolver=RestyResolver('api'), validate_responses=True, options={"swagger_ui": True}) # require connexion[swagger-ui]
     application = app.app
     settings.init(application)
 
