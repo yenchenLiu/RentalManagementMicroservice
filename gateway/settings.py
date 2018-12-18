@@ -7,7 +7,7 @@ from flask_nameko import FlaskPooledClusterRpcProxy
 def init(application):
     global flask_tracer
     global rpc
-    flask_tracer = FlaskTracer(init_tracer("book store"), True, application)
+    flask_tracer = FlaskTracer(init_tracer("item rental"), True, application)
     rpc = FlaskPooledClusterRpcProxy()
 
     def create_app():

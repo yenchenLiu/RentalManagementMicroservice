@@ -1,4 +1,7 @@
+import os
+
 from random import randint
+
 
 import connexion
 import opentracing
@@ -12,13 +15,11 @@ import settings
 
 if __name__ == "__main__":
     app = connexion.App(__name__, port=9090, specification_dir='swagger/')
-    app.add_api('shopping.yaml', resolver=RestyResolver('api'), validate_responses=True, options={"swagger_ui": True}) # require connexion[swagger-ui]
+    app.add_api('rental.yaml', resolver=RestyResolver('api'), validate_responses=True, options={"swagger_ui": True}) # require connexion[swagger-ui]
     application = app.app
     settings.init(application)
 
-    SECRET_KEY = ""
-    for _ in range(50):
-        SECRET_KEY += chr(randint(32,126))
+    SECRET_KEY = os.environ["JWT_SECRET"]
     application.config['SECRET_KEY'] = SECRET_KEY
     jwt = JWTManager(application)
     app.run()

@@ -1,8 +1,0 @@
-{
- "type": "record",
- "name": "BookCategory",
- "fields": [
-     {"name": "id", "type": "int"},
-     {"name": "name", "type": "string"}
- ]
-}
