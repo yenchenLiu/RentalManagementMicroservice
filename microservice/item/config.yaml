@@ -1,0 +1,2 @@
+AMQP_URI: !env_var "pyamqp://${RABBITMQ_USER:guest}:${RABBITMQ_PASSWORD:guest}@${RABBITMQ_HOST:localhost}"
+# 172.21.0.1 為docker 連進本機的ip
