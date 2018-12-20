@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: item-service
+  name: rent-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: item-service
+      app: rent-service
   template:
     metadata:
       labels:
-        app: item-service
+        app: rent-service
     spec:
       containers:
-      - name: pod-item-service
-        image: daychen/item-service:v2.2.0
+      - name: pod-rent-service
+        image: daychen/rent-service:v2.2.0
         env:
         - name: RABBITMQ_HOST
           value: rabbitmq

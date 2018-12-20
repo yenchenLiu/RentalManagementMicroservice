@@ -33,6 +33,71 @@ class ItemService:
     name = "item_service"
 
     @rpc
+    def insert_item(self, category_name, name):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        category = session.query(ItemCategory).filter(ItemCategory.name==category_name).one_or_none()
+        if category is None:
+            category = ItemCategory(name=name)
+            session.add(category)
+            session.commit()
+        item = session.query(Item).filter(Item.name==name).one_or_none()
+        if item is None:
+            item = Item(name=name, category=category, amount=1)
+            session.add(item)
+        else:
+            item.amount += 1
+        session.commit()
+        return True
+    
+    @rpc
+    def rent_item(self, item_id):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        item = session.query(Item).get(item_id)
+        if item.amount <= 0:
+            return False
+        item.amount -= 1
+        session.commit()
+        name = item.name
+        session.close()
+        return {"id":item_id, "name":name}
+
+    @rpc
+    def return_item(self, item_id):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        item = session.query(Item).get(item_id)
+        item.amount += 1
+        session.commit()
+        name = item.name
+        session.close()
+        return {"id":item_id, "name":name}
+    
+    @rpc
+    def check_item(self, item_id):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        item = session.query(Item).get(item_id)
+        if item is None:
+            return False
+        if item.amount <= 0:
+            return False
+        session.close()
+        return True
+
+    @rpc
+    def get_items(self):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        result = []
+        for item in session.query(Item):
+            result.append({"id": item.id, "amount": item.amount, 
+            "category-id": item.category_id, "name": item.name})
+        session.close()
+        return json.dumps(result)
+
+    @rpc
     def create_category(self, name):
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -41,9 +106,8 @@ class ItemService:
         category = ItemCategory(name=name)
         session.add(category)
         session.commit()
-        category_id = category.id
-        session.close()
         result = {"name": category.name, "id": category.id}
+        session.close()
         return json.dumps(result)
     
     @rpc

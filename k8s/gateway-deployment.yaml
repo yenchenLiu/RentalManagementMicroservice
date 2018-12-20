@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-pod
+  labels:
+    app: gateway-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-pod
+  template:
+    metadata:
+      labels:
+        app: gateway-pod
+    spec:
+      containers:
+      - name: pod-gateway
+        image: daychen/gateway:v2.2.0
+        ports:
+        - containerPort: 9090
+          name: web
+        env:
+        - name: RABBITMQ_HOST
+          value: rabbitmq
+        - name: REPORTING_HOST
+          value: jaeger-agent
+        - name: JWT_SECRET
+          value: "<QR7{:Y#Ounvd(w=^sBqG7roW<d_GgS3[X6r,m@H=$KOyh9&4X"
+

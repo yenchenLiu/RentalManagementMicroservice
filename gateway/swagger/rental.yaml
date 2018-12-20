@@ -36,10 +36,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/LentItems'
-              returns:
-                type: array
-                items:
-                  $ref: '#/definitions/LentItems'
 
   /items/:
     get:
@@ -67,23 +63,76 @@ paths:
             type: array
             items:
               $ref: '#/definitions/ItemCategory'
-  /items/create-category/:
+  /items/rent/:
     post:
-      tags: 
+      tags:
       - 物品
-      summary: '新增分類'
+      summary: '租借物品'
       x-swagger-router-controller: api.items
-      operationId: create_category
+      operationId: rent
       parameters:
         - in: body
           name: data
-          description: 'Create category'
+          description: "物品編號"
           required: true
           schema:
-            $ref: '#/definitions/ItemCategory'
+            type: object
+            properties:
+              item_id:
+                type: integer
+                format: int64
+
       responses:
-        '201':
-          description: 'create category'
+        '200':
+          description: '租借物品'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /items/return/:
+    post:
+      tags:
+      - 物品
+      summary: 歸還物品
+      x-swagger-router-controller: api.items
+      operationId: returned
+      parameters:
+        - in: body
+          name: data
+          description: "物品編號"
+          required: true
+          schema:
+            type: object
+            properties:
+              lend_id:
+                type: integer
+                format: int64
+      responses:
+        '200':
+          description: '歸還物品'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  # /items/create-category/:
+  #   post:
+  #     tags: 
+  #     - 物品
+  #     summary: '新增分類'
+  #     x-swagger-router-controller: api.items
+  #     operationId: create_category
+  #     parameters:
+  #       - in: body
+  #         name: data
+  #         description: 'Create category'
+  #         required: true
+  #         schema:
+  #           $ref: '#/definitions/ItemCategory'
+  #     responses:
+  #       '201':
+  #         description: 'create category'
   /auth/:
     post:
       tags:
@@ -147,8 +196,9 @@ definitions:
       id:
         type: integer
         format: int64
-      category:
-        $ref: '#/definitions/ItemCategory'
+      category-id:
+        type: integer
+        format: int64
       name: 
         type: string
         example: 剪刀
@@ -161,9 +211,15 @@ definitions:
       id:
         type: integer
         format: int64
+      item_id:
+        type: integer
+        format: int64
       name: 
         type: string
         example: 剪刀
+      return:
+        type: boolean
+        example: false
 
   Account:
     type: object
