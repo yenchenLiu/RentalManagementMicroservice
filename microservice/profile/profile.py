@@ -1,5 +1,5 @@
+import os
 import json
-from io import BytesIO
 
 from nameko.rpc import rpc
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, create_engine
@@ -25,7 +25,7 @@ class Lends(Base):
     name = Column(String(50))
     returned = Column(Boolean)
 
-engine = create_engine('sqlite:///profile.db', echo=False)
+engine = create_engine('mysql+pymysql://root:testpassword@{}/profile'.format(os.getenv("MYSQL_HOST", "localhost")), echo=False)
 Base.metadata.create_all(engine)
 
 class ProfileService:

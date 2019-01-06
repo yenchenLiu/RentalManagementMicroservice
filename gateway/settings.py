@@ -19,3 +19,7 @@ def init(application):
 
         rpc.init_app(rpc_app)
     create_app()
+
+def rpc_reconnect():
+    global rpc
+    print(rpc.get_connection)

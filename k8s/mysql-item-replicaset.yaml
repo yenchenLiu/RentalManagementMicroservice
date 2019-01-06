@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mysql-item
+  labels:
+    app: mysql-item
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-item
+  template:
+    metadata:
+      labels:
+        app: mysql-item
+    spec:
+      containers:
+      - name: database-item
+        image: mysql
+        resources:
+          requests:
+            cpu: 1
+            memory: 0.6Gi
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: testpassword
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: database-item
+          # /var/lib/mysql 是MySQL的資料存放點
+          mountPath: "/var/lib/mysql"
+      volumes:
+      - name: database-item
+        persistentVolumeClaim:
+          claimName: database-item

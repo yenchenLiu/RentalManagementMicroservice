@@ -32,7 +32,6 @@ spec:
                 if [ -z "$(rabbitmqctl cluster_status | grep rabbitmq-0)" ]; then  
                   touch /join
                   rabbitmqctl stop_app;
-                  rabbitmqctl reset;
                   rabbitmqctl join_cluster rabbit@rabbitmq-0;
                   rabbitmqctl start_app;
                 else
@@ -51,10 +50,10 @@ spec:
         ports:
         - containerPort: 5672
           name: amqp
-      #   volumeMounts:
-      #   - name: rabbitmq-data
-      #     mountPath: /var/lib/rabbitmq
-      # volumes:
-      #   - name: rabbitmq-data
-      #     hostPath:
-      #       path: /app/data/rabbitmq
+        volumeMounts:
+        - name: rabbitmq-data
+          mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: rabbimq-volume

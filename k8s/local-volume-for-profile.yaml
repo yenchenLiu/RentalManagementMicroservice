@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: profile-database
+  labels:
+    volume: profile-volume
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/docker/k8s-volume/mysql-profile"
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: database-profile
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: profile-volume

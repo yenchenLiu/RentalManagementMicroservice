@@ -1,4 +1,5 @@
 import json
+import os
 from io import BytesIO
 
 from nameko.rpc import rpc
@@ -6,6 +7,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.sql import exists
+from sqlalchemy.exc import ProgrammingError
 
 Base = declarative_base()
 
@@ -26,8 +28,9 @@ class Item(Base):
     name = Column(String(50))
     amount = Column(Integer)
 
-engine = create_engine('sqlite:///item.db', echo=False)
+engine = create_engine('mysql+pymysql://root:testpassword@{}/item'.format(os.getenv("MYSQL_HOST", "localhost")), echo=False)
 Base.metadata.create_all(engine)
+
 
 class ItemService:
     name = "item_service"

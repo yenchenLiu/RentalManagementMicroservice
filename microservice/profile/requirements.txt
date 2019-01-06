@@ -1,2 +1,4 @@
 nameko
 sqlalchemy
+cryptography
+PyMySQL
