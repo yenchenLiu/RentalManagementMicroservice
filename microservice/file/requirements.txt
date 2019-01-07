@@ -1,0 +1,5 @@
+nameko
+cryptography
+PyMySQL
+ipfsapi
+sqlalchemy

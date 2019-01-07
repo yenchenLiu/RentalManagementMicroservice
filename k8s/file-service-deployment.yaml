@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: file-service
+  template:
+    metadata:
+      labels:
+        app: file-service
+    spec:
+      containers:
+      - name: pod-file-service
+        image: daychen/file-service:v2.3.2
+        env:
+        - name: RABBITMQ_HOST
+          value: rabbitmq
+        - name: IPFS_HOST
+          value: ipfs-service
+        volumeMounts:
+        - name: file-volume
+          mountPath: "/app/sqlite"
+      volumes:
+      - name: file-volume
+        persistentVolumeClaim:
+          claimName: file-volume

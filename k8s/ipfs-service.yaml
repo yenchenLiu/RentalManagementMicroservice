@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipfs-service
+spec:
+  ports:
+  - port: 5001
+    protocol: TCP
+    targetPort: api
+  selector:
+    app: go-ipfs
+  type: NodePort

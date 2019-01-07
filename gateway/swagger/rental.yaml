@@ -4,7 +4,13 @@ swagger: "2.0"
 info:
   title: "租賃系統"
   version: "1.0"
-host: localhost
+# host: lab.daychen.tw
+
+securityDefinitions:
+  Jwt:
+    type: apiKey
+    name: Authorization
+    in: header
 
 tags:
   - name: 個人資料
@@ -21,7 +27,7 @@ paths:
       tags:
       - 個人資料
       # security:
-      #   - jwt: []
+        # - Jwt: []
       summary: '個人資料、點數紀錄與租借紀錄'
       responses:
         '200':
@@ -49,6 +55,48 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Items'
+  /items/image/{item_id}:
+    get:
+      tags:
+      - 物品
+      summary: '取得物品圖片'
+      x-swagger-router-controller: api.items
+      operationId: "get_item_image"
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        type: string
+        format: path
+      responses:
+        '200':
+          description: 'Fetch a image of item'
+  /items/create/:
+    post:
+      tags:
+      - 物品
+      summary: '新增物品'
+      description: "新增物品"
+      x-swagger-router-controller: api.items
+      operationId: "create_item"
+      consumes:
+      - multipart/form-data
+      parameters:
+      - in: formData
+        name: image
+        description: The file to be uploaded
+        type: file
+      - in: formData
+        name: categoryname
+        type: string
+        required: true
+      - in: formData
+        name: name
+        type: string
+        required: true
+      responses:
+        '200':
+          description: 'Fetch item'
   /items/get-category/:
     get:
       tags: 
@@ -129,7 +177,10 @@ paths:
   #         description: 'Create category'
   #         required: true
   #         schema:
-  #           $ref: '#/definitions/ItemCategory'
+  #           type: object
+  #           properties:
+  #             name:
+  #               type: string
   #     responses:
   #       '201':
   #         description: 'create category'
@@ -169,16 +220,6 @@ paths:
       responses:
         '201':
           description: 'create user'
-
-
-
-securityDefinitions:
-  jwt:
-    type: apiKey
-    name: Authorization
-    in: header
-    x-authentication-scheme: Bearer
-
 
 definitions:
   ItemCategory:

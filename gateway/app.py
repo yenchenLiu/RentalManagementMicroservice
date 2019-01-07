@@ -1,7 +1,7 @@
 import os
+from datetime import timedelta
 
 from random import randint
-
 
 import connexion
 import opentracing
@@ -21,5 +21,6 @@ if __name__ == "__main__":
 
     SECRET_KEY = os.environ["JWT_SECRET"]
     application.config['SECRET_KEY'] = SECRET_KEY
+    application.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
     jwt = JWTManager(application)
     app.run()

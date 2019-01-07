@@ -39,19 +39,21 @@ class ItemService:
     def insert_item(self, category_name, name):
         Session = sessionmaker(bind=engine)
         session = Session()
-        category = session.query(ItemCategory).filter(ItemCategory.name==category_name).one_or_none()
+        category = session.query(ItemCategory).filter(ItemCategory.name==category_name).first()
         if category is None:
-            category = ItemCategory(name=name)
+            category = ItemCategory(name=category_name)
             session.add(category)
             session.commit()
-        item = session.query(Item).filter(Item.name==name).one_or_none()
+        item = session.query(Item).filter(Item.name==name, Item.category_id==category.id).one_or_none()
         if item is None:
             item = Item(name=name, category=category, amount=1)
             session.add(item)
         else:
             item.amount += 1
         session.commit()
-        return True
+        result = {"name": item.name, "id": item.id}
+        session.close()
+        return json.dumps(result)
     
     @rpc
     def rent_item(self, item_id):
@@ -100,19 +102,19 @@ class ItemService:
         session.close()
         return json.dumps(result)
 
-    @rpc
-    def create_category(self, name):
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        if session.query(exists().where(ItemCategory.name==name)).scalar():
-            return json.dumps({"error": "分類已經存在"})
-        category = ItemCategory(name=name)
-        session.add(category)
-        session.commit()
-        result = {"name": category.name, "id": category.id}
-        session.close()
-        return json.dumps(result)
-    
+    # @rpc
+    # def create_category(self, name):
+    #     Session = sessionmaker(bind=engine)
+    #     session = Session()
+    #     if session.query(exists().where(ItemCategory.name==name)).scalar():
+    #         return json.dumps({"error": "分類已經存在"})
+    #     category = ItemCategory(name=name)
+    #     session.add(category)
+    #     session.commit()
+    #     result = {"name": category.name, "id": category.id}
+    #     session.close()
+    #     return json.dumps(result)
+
     @rpc
     def get_category(self):
         Session = sessionmaker(bind=engine)
