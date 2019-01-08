@@ -2,9 +2,9 @@
 swagger: "2.0"
 
 info:
-  title: "租賃系統"
+  title: "Rental System"
   version: "1.0"
-# host: lab.daychen.tw
+host: lab.daychen.tw
 
 securityDefinitions:
   Jwt:
@@ -13,25 +13,23 @@ securityDefinitions:
     in: header
 
 tags:
-  - name: 個人資料
-    description: 點數紀錄與租借紀錄查詢
-  - name: 物品
-    description: 物品資料
-  - name: 使用者
-    description: 使用者相關
+  - name: Profile
+    description: Points and rental records
+  - name: Rental
+    description: Rental and items
   - name: JWT Authentication
     description: authentication
 paths:
   /profile/:
     get:
       tags:
-      - 個人資料
+      - Profile
       # security:
         # - Jwt: []
-      summary: '個人資料、點數紀錄與租借紀錄'
+      summary: 'Points and rental records'
       responses:
         '200':
-          description: '取得個人紀錄'
+          description: 'Points and rental records'
           schema:
             type: object
             properties:
@@ -46,8 +44,8 @@ paths:
   /items/:
     get:
       tags: 
-      - 物品
-      summary: '列出所有物品、分類與數量'
+      - Rental
+      summary: 'Fetch a list of items'
       responses:
         '200':
           description: 'Fetch a list of items'
@@ -58,8 +56,8 @@ paths:
   /items/image/{item_id}:
     get:
       tags:
-      - 物品
-      summary: '取得物品圖片'
+      - Rental
+      summary: 'Get the URL of the item image'
       x-swagger-router-controller: api.items
       operationId: "get_item_image"
       parameters:
@@ -70,13 +68,13 @@ paths:
         format: path
       responses:
         '200':
-          description: 'Fetch a image of item'
+          description: 'Get the URL of the item image'
   /items/create/:
     post:
       tags:
-      - 物品
-      summary: '新增物品'
-      description: "新增物品"
+      - Rental
+      summary: 'Add items to the rental system'
+      description: "Add items to the rental system"
       x-swagger-router-controller: api.items
       operationId: "create_item"
       consumes:
@@ -84,7 +82,7 @@ paths:
       parameters:
       - in: formData
         name: image
-        description: The file to be uploaded
+        description: "The image to be uploaded"
         type: file
       - in: formData
         name: categoryname
@@ -96,17 +94,17 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Fetch item'
+          description: 'Get item id'
   /items/get-category/:
     get:
       tags: 
-      - 物品
-      summary: '分類'
+      - Rental
+      summary: 'Fetch a list of item categories'
       x-swagger-router-controller: api.items
       operationId: get_category
       responses:
         '200':
-          description: 'create category'
+          description: 'Fetch a list of item categories'
           schema:
             type: array
             items:
@@ -114,14 +112,14 @@ paths:
   /items/rent/:
     post:
       tags:
-      - 物品
-      summary: '租借物品'
+      - Rental
+      summary: 'Rental items'
       x-swagger-router-controller: api.items
       operationId: rent
       parameters:
         - in: body
           name: data
-          description: "物品編號"
+          description: "Enter the ID of the item"
           required: true
           schema:
             type: object
@@ -132,7 +130,7 @@ paths:
 
       responses:
         '200':
-          description: '租借物品'
+          description: 'Rental items'
           schema:
             type: object
             properties:
@@ -141,14 +139,14 @@ paths:
   /items/return/:
     post:
       tags:
-      - 物品
-      summary: 歸還物品
+      - Rental
+      summary: "Return items"
       x-swagger-router-controller: api.items
       operationId: returned
       parameters:
         - in: body
           name: data
-          description: "物品編號"
+          description: "rental id"
           required: true
           schema:
             type: object
@@ -158,32 +156,12 @@ paths:
                 format: int64
       responses:
         '200':
-          description: '歸還物品'
+          description: 'Return items'
           schema:
             type: object
             properties:
               message:
                 type: string
-  # /items/create-category/:
-  #   post:
-  #     tags: 
-  #     - 物品
-  #     summary: '新增分類'
-  #     x-swagger-router-controller: api.items
-  #     operationId: create_category
-  #     parameters:
-  #       - in: body
-  #         name: data
-  #         description: 'Create category'
-  #         required: true
-  #         schema:
-  #           type: object
-  #           properties:
-  #             name:
-  #               type: string
-  #     responses:
-  #       '201':
-  #         description: 'create category'
   /auth/:
     post:
       tags:
@@ -207,7 +185,7 @@ paths:
     post:
       tags:
         - JWT Authentication
-      summary: '註冊新帳號'
+      summary: 'Create new account'
       x-swagger-router-controller: api.auth
       operationId: create_user
       parameters:
@@ -230,7 +208,7 @@ definitions:
         format: int64
       name:
         type: string
-        example: 文具用品
+        example: Stationery
   Items:
     type: object
     properties:
@@ -242,7 +220,7 @@ definitions:
         format: int64
       name: 
         type: string
-        example: 剪刀
+        example: Scissors
       amount:
         type: integer
         example: 5
@@ -257,7 +235,7 @@ definitions:
         format: int64
       name: 
         type: string
-        example: 剪刀
+        example: Scissors
       return:
         type: boolean
         example: false

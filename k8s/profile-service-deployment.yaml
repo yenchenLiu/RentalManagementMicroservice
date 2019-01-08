@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pod-profile-service
-        image: daychen/profile-service:v2.2.1
+        image: daychen/profile-service:v2.3.1
         env:
         - name: RABBITMQ_HOST
           value: rabbitmq

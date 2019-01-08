@@ -26,6 +26,7 @@ class Lends(Base):
     returned = Column(Boolean)
 
 engine = create_engine('mysql+pymysql://root:testpassword@{}/profile'.format(os.getenv("MYSQL_HOST", "localhost")), echo=False)
+
 Base.metadata.create_all(engine)
 
 class ProfileService:
@@ -47,7 +48,7 @@ class ProfileService:
             session.add(profile)
             session.commit()
 
-        for lend in session.query(Lends).filter(profile_id==profile_id):
+        for lend in session.query(Lends).filter(Lends.profile==profile).all():
             lends.append({"id":lend.id, "name": lend.name, "return": lend.returned})
         
         result["point"] = profile.point
