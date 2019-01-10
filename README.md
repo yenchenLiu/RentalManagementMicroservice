@@ -33,4 +33,4 @@ kubectl create -f k8s/file.yaml
 ```
 
 ## 範例架構
-![Demonstration Architecture](https://github.com/yenchenLiu/RentalManagementMicroservice/raw/master/demi/Microservice.png)
+![Demonstration Architecture](https://github.com/yenchenLiu/RentalManagementMicroservice/blob/master/demo/Microservice.png)
