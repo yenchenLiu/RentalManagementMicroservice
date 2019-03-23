@@ -59,6 +59,10 @@
     ```shell
     minikube dashboard
     ```
+* 使用minikube 將服務對外開放
+    ```shell
+    minikube service [service name]
+    ```
 
 ## 範例架構
 ![Demonstration Architecture](https://github.com/yenchenLiu/RentalManagementMicroservice/blob/master/demo/Microservice.png)
