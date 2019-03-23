@@ -40,15 +40,24 @@
 ##### 因為程式相依的關係，所以必須要分配磁碟空間、建立資料庫後再建立其他程式
 1. 建立volume
    ```shell
-   kubectl create -f k8s/*volume*.yaml
+   kubectl apply -f k8s/volume/,
    ```
 2. 建立資料庫
    ```shell
-   kubectl create -f k8s/mysql*.yaml
+   kubectl apply -f k8s/database/,
    ```
-3. 建立其他程式
+3. 啟動 Message Broker
+   ```shell
+   kubectl apply -f k8s/message/.
+4. 建立其他程式
+    ```shell
+    kubectl apply -f k8s/.
     ```
-    kubectl create -f k8s/[file].yaml
+* item 與 profile 這兩個service因為尚未配置過資料庫(scheme) ，所以會無法成功運行。
+### 其他指令
+* 查看minikube 儀表板
+    ```shell
+    minikube dashboard
     ```
 
 ## 範例架構
